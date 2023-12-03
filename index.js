@@ -3,7 +3,7 @@ import Debug from 'debug'
 import { Client as DHT } from 'bittorrent-dht' // empty object in browser
 import { EventEmitter } from 'events'
 import parallel from 'run-parallel'
-import { Client as Tracker } from 'bittorrent-tracker'
+import { Client as Tracker } from 'ptc-bittorrent-tracker'
 import LSD from 'bittorrent-lsd'
 
 const debug = Debug('torrent-discovery')
@@ -47,8 +47,8 @@ class Discovery extends EventEmitter {
     this._onTrackerPeer = peer => {
       this.emit('peer', peer, 'tracker')
     }
-    this._onTrackerAnnounce = () => {
-      this.emit('trackerAnnounce')
+    this._onTrackerAnnounce = (response) => {
+      this.emit('trackerAnnounce', response)
     }
     this._onLSDPeer = (peer, infoHash) => {
       this.emit('peer', peer, 'lsd')
